@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
 
+import java.io.File;
 import java.nio.charset.Charset;
 
 
@@ -56,9 +57,10 @@ public class CheetahTextureAtlas implements Disposable
         atlasName = atlasFile.name();
         String fileContent = new String(atlasFile.readBytes(), Charset.defaultCharset());
         String[] lines = fileContent.split("(\\r\\n)|(\\n\\r)");
-        String textureFileName = lines[0].split(":")[1].trim();
+        String textureFileName = atlasFile.path();
+        textureFileName = textureFileName.substring(0, textureFileName.lastIndexOf('/') + 1);
+        textureFileName += lines[0].split(":")[1].trim();
         atlas = new Texture(Gdx.files.internal(textureFileName));
-        //atlas.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         textureInfos = new TextureInfo[lines.length - 1];
         for (int i = 1; i < lines.length; i++)
         {

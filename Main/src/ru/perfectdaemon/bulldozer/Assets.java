@@ -11,7 +11,7 @@ public class Assets
 
     public static void load()
     {
-        Atlas = new CheetahTextureAtlas(Gdx.files.internal("atlas.atlas"));
+        Atlas = new CheetahTextureAtlas(Gdx.files.internal("main/atlas.atlas"));
     }
 
     public static void dispose()

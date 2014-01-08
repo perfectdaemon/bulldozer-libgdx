@@ -28,8 +28,8 @@ public class GameScreen implements Screen
         stage.setCamera(camera);
         Global.load();
 
-        level = new Level(Gdx.files.internal("level1.conf"));
-        dozer = new Dozer(new DozerParams(Gdx.files.internal("car.conf")), new Vector2(100, 300).div(40f));
+        level = new Level(Gdx.files.internal("main/level1.conf"));
+        dozer = new Dozer(new DozerParams(Gdx.files.internal("main/car.conf")), new Vector2(100, 300).div(40f));
 
         Gdx.gl.glClearColor(0 / 255.0f, 30 / 255.0f, 60 / 250.0f, 1.0f);
     }
