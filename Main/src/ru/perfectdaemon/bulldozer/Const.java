@@ -5,6 +5,8 @@ package ru.perfectdaemon.bulldozer;
  */
 public class Const
 {
+    public static float EPSILON = 0.0001f;
+
     //Texture names
     public static final String FILE_ATLAS  = "atlas.atlas";
 
@@ -22,7 +24,7 @@ public class Const
     public static final int GAME_HEIGHT = 15;
 
     //Physics
-    public static final float PHYSIC_STEP = 1 / 45f;
+    public static final float PHYSIC_STEP = 1 / 60f;
     public static final int PHYSIC_VEL_IT = 8;
     public static final int PHYSIC_POS_IT = 4;
 
@@ -42,4 +44,9 @@ public class Const
     public static final short MASK_EARTH = CAT_PLAYER | CAT_WHEELS | CAT_ENEMY | CAT_DYNAMIC | CAT_SENSOR;
 
     public static final short GROUP_PLAYER = -1;
+
+    //player
+    public static final float CHANGE_GEAR_MOTORFORCE_THRESHOLD = 2.0f;
+    public static final float MIN_MOTOR_SPEED = 10.0f;
+    public static final float CHANGE_CAMERA_SPEED_THRESHOLD = 2.0f;
 }

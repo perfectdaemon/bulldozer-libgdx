@@ -15,7 +15,9 @@ public class BulldozerGame extends Game
     {
         Gdx.app.log("Game", "Start to create a game class");
         Assets.load();
+
         gameScreen = new GameScreen(this);
+        Gdx.input.setInputProcessor(gameScreen);
         setScreen(gameScreen);
     }
 

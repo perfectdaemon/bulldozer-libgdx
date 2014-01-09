@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 /**
  * Created by daemon on 07.01.14.
  */
-public class GameScreen implements Screen
+public class GameScreen implements Screen, InputProcessor
 {
     private final BulldozerGame game;
     private Stage stage;
@@ -29,15 +29,23 @@ public class GameScreen implements Screen
         Global.load();
 
         level = new Level(Gdx.files.internal("main/level1.conf"));
-        dozer = new Dozer(new DozerParams(Gdx.files.internal("main/car.conf")), new Vector2(100, 300).div(40f));
+        loadDozer();
 
         Gdx.gl.glClearColor(0 / 255.0f, 30 / 255.0f, 60 / 250.0f, 1.0f);
+    }
+
+    private void loadDozer()
+    {
+        if (dozer != null)
+            dozer.dispose();
+        dozer = new Dozer(new DozerParams(Gdx.files.internal("main/car.conf")), new Vector2(2.5f, 7.5f));
     }
 
     @Override
     public void render(float delta)
     {
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        dozer.update(delta);
         stage.act(delta);
         stage.draw();
         Global.debugRenderer.render(Global.world, stage.getCamera().combined);
@@ -76,9 +84,58 @@ public class GameScreen implements Screen
 
     }
 
-    @Override
     public void dispose()
     {
         Global.dispose();
+    }
+
+    @Override
+    public boolean keyDown(int keycode)
+    {
+        if (keycode == Input.Keys.TAB)
+            loadDozer();
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount)
+    {
+        return false;
     }
 }

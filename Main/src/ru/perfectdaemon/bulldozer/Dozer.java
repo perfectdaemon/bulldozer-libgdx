@@ -1,5 +1,8 @@
 package ru.perfectdaemon.bulldozer;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -8,11 +11,12 @@ import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Disposable;
 
 /**
  * Created by daemon on 08.01.14.
  */
-public class Dozer
+public class Dozer implements Disposable
 {
     public enum MoveDirection {NoMove, Left, Right};
 
@@ -27,8 +31,33 @@ public class Dozer
 
     MoveDirection Direction;
 
-
     boolean AutomaticTransmission;
+
+    public Dozer(DozerParams params, Vector2 startPoint)
+    {
+        initBodies(params, startPoint);
+        initJoints(params);
+        MaxMotorSpeed = params.MaxMotorSpeed;
+        Acceleration = params.Acceleration;
+        Gear = 1;
+        //Gears = new float[params.GearCount];
+        Gears = params.Gears.clone();
+    }
+
+    @Override
+    public void dispose()
+    {
+        Global.world.destroyJoint(b2SuspJointFront);
+        Global.world.destroyJoint(b2SuspJointRear);
+        Global.world.destroyJoint(b2WheelJointFront);
+        Global.world.destroyJoint(b2WheelJointRear);
+
+        Global.world.destroyBody(b2CarBody);
+        Global.world.destroyBody(b2SuspFront);
+        Global.world.destroyBody(b2SuspRear);
+        Global.world.destroyBody(b2WheelFront);
+        Global.world.destroyBody(b2WheelRear);
+    }
 
     private void initBodies(DozerParams params, Vector2 startPoint)
     {
@@ -42,10 +71,10 @@ public class Dozer
                 params.WheelRearSize / 2f, params.WheelRearD, params.WheelRearF, params.WheelRearR,
                 Const.CAT_WHEELS, Const.MASK_PLAYER_WHEELS, Const.GROUP_PLAYER);
         b2SuspFront = PhysicHelper.createBoxBody(Global.world, BodyDef.BodyType.DynamicBody, params.SuspFrontOffset.cpy().add(startPoint),
-                new Vector2(0.125f, 0.5f).div(2f), 1.0f, 0.0f, 0.0f,
+                new Vector2(0.125f, 0.5f).div(2f), 2.0f, 0.0f, 0.0f,
                 Const.CAT_WHEELS, Const.MASK_PLAYER_WHEELS, Const.GROUP_PLAYER);
         b2SuspRear = PhysicHelper.createBoxBody(Global.world, BodyDef.BodyType.DynamicBody, params.SuspRearOffset.cpy().add(startPoint),
-                new Vector2(0.125f, 0.5f).div(2f), 1.0f, 0.0f, 0.0f,
+                new Vector2(0.125f, 0.5f).div(2f), 2.0f, 0.0f, 0.0f,
                 Const.CAT_WHEELS, Const.MASK_PLAYER_WHEELS, Const.GROUP_PLAYER);
     }
 
@@ -81,18 +110,179 @@ public class Dozer
         b2WheelJointFront = (RevoluteJoint) Global.world.createJoint(rdef);
     }
 
-    public Dozer(DozerParams params, Vector2 startPoint)
+    private void tryGearUp()
     {
-        this.initBodies(params, startPoint);
-        this.initJoints(params);
+        if ((Gear != 0) && (Gear < (Gears.length) - 1))
+        {
+            Gear++; //Повышаем передачу
+            CurrentMotorSpeed = CurrentMotorSpeed * (Gears[Gear - 1] / Gears[Gear]) * 0.7f;
+        }
     }
 
-    public void tryGearUp()
-    {}
+    private void tryGearDown()
+    {
+        if (Gear > 1)
+        {
+            Gear--;
+            CurrentMotorSpeed = CurrentMotorSpeed * (Gears[Gear + 1] / Gears[Gear]);
+        }
+    }
 
-    public void tryGearDown()
-    {}
+    private void addAccel(float dt)
+    {
+        CurrentMotorSpeed = MathUtils.clamp(CurrentMotorSpeed + dt * Acceleration, 0, MaxMotorSpeed);
+    }
 
-    public void addAccel()
-    {}
+    private float lerp(float start, float finish, float t)
+    {
+        return start + (finish - start) * t;
+    }
+
+    private void reduceAccel(float dt)
+    {
+        CurrentMotorSpeed = MathUtils.clamp(CurrentMotorSpeed - dt * Acceleration, 0, MaxMotorSpeed);
+    }
+
+    private void calcMotorSpeed(float dt)
+    {
+        CurrentMotorSpeed = lerp(CurrentMotorSpeed, Math.abs(WheelSpeed / Gears[Gear]), 1 / Math.abs(Gears[Gear]));
+    }
+
+    private void brake(boolean shouldBrake)
+    {
+        b2WheelJointFront.setMotorSpeed(0);
+        b2WheelJointFront.enableMotor(shouldBrake);
+        b2WheelJointFront.setMaxMotorTorque(8);
+    }
+
+    private boolean isGasDown()
+    {
+        return Gdx.input.isKeyPressed(Input.Keys.RIGHT)
+                || (Gdx.input.isTouched() && (Gdx.input.getX() / Gdx.graphics.getWidth()) > 2 / 3f);
+    }
+
+    private boolean isBrakeDown()
+    {
+        return Gdx.input.isKeyPressed(Input.Keys.LEFT)
+                || (Gdx.input.isTouched() && (Gdx.input.getX() / Gdx.graphics.getWidth()) < 1 / 3f);
+    }
+
+    private boolean isHandbrakeDown()
+    {
+        return Gdx.input.isKeyPressed(Input.Keys.SPACE)
+                || (Gdx.input.isTouched()
+                        && (Gdx.input.getX() / Gdx.graphics.getWidth()) > 1 / 3f
+                        && (Gdx.input.getX() / Gdx.graphics.getWidth()) < 2 / 3f);
+    }
+
+    public void update(float dt)
+    {
+        brake(false);
+        boolean isAccelerating = false;
+
+        if (isGasDown())
+        {
+            b2WheelJointRear.enableMotor(true);
+            //Если включена задняя передача
+            if (Gear == 0)
+            {
+                if (Math.abs(BodySpeed) < Const.CHANGE_GEAR_MOTORFORCE_THRESHOLD)
+                {
+                    //Можно переключаться на первую
+                    //RearLight.Visible := False;
+                    Gear = 1;
+                    CurrentMotorSpeed = 0;
+                }
+                else
+                {
+                    //Просто снижаем скорость
+                    reduceAccel(3 * dt);
+                    brake(true);
+                    isAccelerating = false;
+                    b2WheelJointRear.enableMotor(false);
+                }
+            }
+            else
+            {
+                addAccel(dt);
+                isAccelerating = true;
+            }
+
+        }
+        else if (isBrakeDown())
+        {
+            b2WheelJointRear.enableMotor(true);
+            if (Gear > 0)
+            {
+                if (BodySpeed < Const.CHANGE_GEAR_MOTORFORCE_THRESHOLD)
+                {
+                    //Можно переключаться на заднюю
+                    Gear = 0;
+                    CurrentMotorSpeed = 0;
+                    //RearLight.Visible = true;
+                }
+                else
+                {
+                    //Прост снижаем скорость
+                    reduceAccel(2 * dt);
+                    brake(true);
+                    isAccelerating = false;
+                    b2WheelJointRear.enableMotor(false);
+                }
+            }
+            else
+            {
+                addAccel(dt);
+                isAccelerating = true;
+            }
+        }
+        //не нажато ни вперед, ни назад
+        else
+        {
+            b2WheelJointRear.enableMotor(false);
+            isAccelerating = false;
+            reduceAccel(0.5f * dt);
+            calcMotorSpeed(dt);
+        }
+
+
+        if (isAccelerating)
+        {
+            b2WheelJointRear.setMotorSpeed(-CurrentMotorSpeed * Gears[Gear]);
+            b2WheelJointRear.setMaxMotorTorque(5 / Math.abs(Gears[Gear]));
+            //if (WheelPoints > 0){ and (Gear > 0)} then
+            //    AddDownForce(dt);
+        }
+
+        if (isHandbrakeDown())
+        {
+            b2WheelJointRear.enableMotor(true);
+            b2WheelJointRear.setMotorSpeed(0);
+            b2WheelJointRear.setMaxMotorTorque(10);
+        }
+
+        automaticTransmissionUpdate(dt);
+        defineCarDynamicParams(dt);
+    }
+
+    private void defineCarDynamicParams(float dt)
+    {
+        WheelSpeed = b2WheelRear.getAngularVelocity();
+        BodySpeed = b2CarBody.getLinearVelocity().x;
+
+        if (BodySpeed > Const.CHANGE_CAMERA_SPEED_THRESHOLD)
+            Direction = MoveDirection.Right;
+        else if (BodySpeed < -Const.CHANGE_CAMERA_SPEED_THRESHOLD)
+            Direction = MoveDirection.Left;
+        else
+            Direction = MoveDirection.NoMove;
+    }
+
+    private void automaticTransmissionUpdate(float dt)
+    {
+        if (Math.abs(CurrentMotorSpeed - MaxMotorSpeed) <= Const.EPSILON)
+            tryGearUp();
+        else if (CurrentMotorSpeed < Const.MIN_MOTOR_SPEED)
+            tryGearDown();
+    }
 }
