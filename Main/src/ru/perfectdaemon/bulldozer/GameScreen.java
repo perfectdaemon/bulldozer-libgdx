@@ -45,10 +45,17 @@ public class GameScreen implements Screen, InputProcessor
     public void render(float delta)
     {
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-        dozer.update(delta);
-        stage.act(delta);
         stage.draw();
         Global.debugRenderer.render(Global.world, stage.getCamera().combined);
+
+        Global.batch.setProjectionMatrix(Global.camera.combined);
+        Global.batch.begin();
+        Assets.font.setScale(0.5f);
+        Assets.font.draw(Global.batch, "Привет, world!", 10, 1);
+        Global.batch.end();
+
+        stage.act(delta);
+        dozer.update(delta);
         Global.world.step(Const.PHYSIC_STEP, Const.PHYSIC_VEL_IT, Const.PHYSIC_POS_IT);
     }
 
@@ -58,6 +65,8 @@ public class GameScreen implements Screen, InputProcessor
         stage.setViewport(Const.GAME_WIDTH, Const.GAME_HEIGHT, true);
         stage.getCamera().translate(-stage.getGutterWidth(),
                 -stage.getGutterHeight(), 0);
+
+        //Global.camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override
