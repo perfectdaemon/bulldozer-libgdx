@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 public class GameScreen implements Screen, InputProcessor
 {
     private final BulldozerGame game;
+    private String debug;
     private Stage stage;
     public Level level;
     public Dozer dozer;
@@ -48,10 +49,11 @@ public class GameScreen implements Screen, InputProcessor
         stage.draw();
         Global.debugRenderer.render(Global.world, stage.getCamera().combined);
 
+        debug = String.format("gas: %b \nbrake: %b \nhandbrake: %b", dozer.isGasDown(), dozer.isBrakeDown(), dozer.isHandbrakeDown());
         Global.batch.setProjectionMatrix(Global.camera.combined);
         Global.batch.begin();
-        Assets.font.setScale(0.5f);
-        Assets.font.draw(Global.batch, "Привет, world!", 10, 1);
+        //Assets.font.setScale(0.5f);
+        Assets.font.drawMultiLine(Global.batch, debug, 10, 1);
         Global.batch.end();
 
         stage.act(delta);

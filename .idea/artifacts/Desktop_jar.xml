@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="Desktop:jar">
+  <artifact type="jar" name="Desktop:jar">
     <output-path>$PROJECT_DIR$/out/production/Desktop</output-path>
     <root id="archive" name="Desktop.jar">
       <element id="module-output" name="Desktop" />

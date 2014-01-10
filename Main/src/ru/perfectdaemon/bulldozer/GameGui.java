@@ -60,4 +60,9 @@ public class GameGui implements InputProcessor
     {
         return false;
     }
+
+    public void render(float dt)
+    {
+
+    }
 }

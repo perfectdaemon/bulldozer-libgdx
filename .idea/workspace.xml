@@ -86,10 +86,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GameScreen.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="GameScreen.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/GameScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="35" selection-start="1493" selection-end="1493" vertical-scroll-proportion="0.6296296" vertical-offset="459" max-vertical-offset="2567">
+            <state line="33" column="0" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0" vertical-offset="402" max-vertical-offset="2601">
               <folding />
             </state>
           </provider>
@@ -98,7 +98,7 @@
       <file leaf-file-name="BulldozerGame.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/BulldozerGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="22" selection-start="366" selection-end="380" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
+            <state line="16" column="22" selection-start="366" selection-end="380" vertical-scroll-proportion="0.0" vertical-offset="157" max-vertical-offset="697">
               <folding />
             </state>
           </provider>
@@ -107,10 +107,8 @@
       <file leaf-file-name="GameGui.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/GameGui.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="1" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="9" column="1" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1241">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -127,10 +125,8 @@
       <file leaf-file-name="Assets.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/Assets.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="39" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="13" column="39" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="629">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -138,16 +134,16 @@
       <file leaf-file-name="Global.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/Global.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="83" selection-start="768" selection-end="843" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+            <state line="27" column="83" selection-start="768" selection-end="843" vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="714">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Dozer.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Dozer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/Dozer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="250" column="34" selection-start="9315" selection-end="9315" vertical-scroll-proportion="0.0" vertical-offset="4193" max-vertical-offset="4811">
+            <state line="148" column="5" selection-start="6288" selection-end="6288" vertical-scroll-proportion="0.5537037" vertical-offset="2030" max-vertical-offset="4811">
               <folding />
             </state>
           </provider>
@@ -165,7 +161,7 @@
       <file leaf-file-name="Level.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/Level.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="64" selection-start="1716" selection-end="1716" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="2108">
+            <state line="58" column="64" selection-start="1716" selection-end="1716" vertical-scroll-proportion="0.0" vertical-offset="986" max-vertical-offset="2261">
               <folding />
             </state>
           </provider>
@@ -195,13 +191,13 @@
         <option value="$PROJECT_DIR$/Android/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/CheetahTextureAtlas.java" />
         <option value="$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/Const.java" />
-        <option value="$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/Dozer.java" />
         <option value="$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/GameHud.java" />
         <option value="$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/BulldozerGame.java" />
-        <option value="$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/GameGui.java" />
         <option value="$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/Assets.java" />
         <option value="$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/Global.java" />
+        <option value="$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/GameGui.java" />
         <option value="$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/GameScreen.java" />
+        <option value="$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/Dozer.java" />
       </list>
     </option>
   </component>
@@ -237,6 +233,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -251,7 +248,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Bulldozer" />
+              <option name="myItemId" value="bulldozer-libgdx" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -261,39 +258,16 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Bulldozer" />
+              <option name="myItemId" value="bulldozer-libgdx" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Bulldozer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Bulldozer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bulldozer" />
+              <option name="myItemId" value="Android" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -311,7 +285,7 @@
     <property name="jdk.selected.JAVA_MODULE" value="1.7" />
     <property name="recentsLimit" value="5" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/out/production/Desktop" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="OverrideImplement.combined" value="true" />
@@ -364,6 +338,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -389,19 +376,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -560,14 +534,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947367" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40421054" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40736842" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" x="809" y="626" width="953" height="387" />
@@ -585,6 +558,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32842106" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947367" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
@@ -811,9 +785,7 @@
     </entry>
     <entry file="jar://$PROJECT_DIR$/Main/libs/gdx-sources.jar!/com/badlogic/gdx/InputProcessor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="17" selection-start="1299" selection-end="1299" vertical-scroll-proportion="0.37777779" vertical-offset="0" max-vertical-offset="1139">
-          <folding />
-        </state>
+        <state line="26" column="17" selection-start="1299" selection-end="1299" vertical-scroll-proportion="0.37777779" vertical-offset="0" max-vertical-offset="1139" />
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/Main/libs/gdx-sources.jar!/com/badlogic/gdx/math/MathUtils.java">
@@ -830,9 +802,7 @@
     </entry>
     <entry file="jar://$PROJECT_DIR$/Main/libs/gdx-sources.jar!/com/badlogic/gdx/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="0" selection-start="1453" selection-end="1453" vertical-scroll-proportion="0.33333334" vertical-offset="347" max-vertical-offset="1037">
-          <folding />
-        </state>
+        <state line="45" column="0" selection-start="1453" selection-end="1453" vertical-scroll-proportion="0.33333334" vertical-offset="347" max-vertical-offset="1037" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/DozerParams.java">
@@ -849,26 +819,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/Dozer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="250" column="34" selection-start="9315" selection-end="9315" vertical-scroll-proportion="0.0" vertical-offset="4193" max-vertical-offset="4811">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/Level.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="58" column="64" selection-start="1716" selection-end="1716" vertical-scroll-proportion="0.0" vertical-offset="497" max-vertical-offset="2108">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/GameGui.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="1" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -879,19 +833,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/BulldozerGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="22" selection-start="366" selection-end="380" vertical-scroll-proportion="0.0" vertical-offset="35" max-vertical-offset="697">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/Assets.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="39" selection-start="358" selection-end="358" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -904,7 +849,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/GameScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="35" selection-start="1493" selection-end="1493" vertical-scroll-proportion="0.6296296" vertical-offset="459" max-vertical-offset="2567">
+        <state line="33" column="0" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0" vertical-offset="402" max-vertical-offset="2601">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/BulldozerGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="22" selection-start="366" selection-end="380" vertical-scroll-proportion="0.0" vertical-offset="35" max-vertical-offset="697">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/GameGui.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="1" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1241">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/ru/perfectdaemon/bulldozer/Dozer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="148" column="5" selection-start="6288" selection-end="6288" vertical-scroll-proportion="0.5537037" vertical-offset="2030" max-vertical-offset="4811">
           <folding />
         </state>
       </provider>

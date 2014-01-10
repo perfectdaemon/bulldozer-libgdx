@@ -155,24 +155,24 @@ public class Dozer implements Disposable
         b2WheelJointFront.setMaxMotorTorque(8);
     }
 
-    private boolean isGasDown()
+    public boolean isGasDown()
     {
         return Gdx.input.isKeyPressed(Input.Keys.RIGHT)
-                || (Gdx.input.isTouched() && (Gdx.input.getX() / Gdx.graphics.getWidth()) > 2 / 3f);
+                || (Gdx.input.isTouched() && ((float)Gdx.input.getX() / Gdx.graphics.getWidth()) > (2.0 / 3f));
     }
 
-    private boolean isBrakeDown()
+    public boolean isBrakeDown()
     {
         return Gdx.input.isKeyPressed(Input.Keys.LEFT)
-                || (Gdx.input.isTouched() && (Gdx.input.getX() / Gdx.graphics.getWidth()) < 1 / 3f);
+                || (Gdx.input.isTouched() && ((float)Gdx.input.getX() / Gdx.graphics.getWidth()) < (1.0 / 3f));
     }
 
-    private boolean isHandbrakeDown()
+    public boolean isHandbrakeDown()
     {
         return Gdx.input.isKeyPressed(Input.Keys.SPACE)
                 || (Gdx.input.isTouched()
-                        && (Gdx.input.getX() / Gdx.graphics.getWidth()) > 1 / 3f
-                        && (Gdx.input.getX() / Gdx.graphics.getWidth()) < 2 / 3f);
+                        && ((float)Gdx.input.getX() / Gdx.graphics.getWidth()) > 1 / 3f
+                        && ((float)Gdx.input.getX() / Gdx.graphics.getWidth()) < 2 / 3f);
     }
 
     public void update(float dt)
