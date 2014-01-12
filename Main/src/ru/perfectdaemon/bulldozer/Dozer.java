@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJoint;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
@@ -64,6 +65,7 @@ public class Dozer implements Disposable
         b2CarBody = PhysicHelper.createBoxBody(Global.world, BodyDef.BodyType.DynamicBody, startPoint,
                 params.BodySize.div(2f), params.BodyD, params.BodyF, params.BodyR,
                 Const.CAT_PLAYER, Const.MASK_PLAYER, Const.GROUP_PLAYER);
+        b2CarBody.getMassData().center.set(params.BodyMassCenterOffset);
         b2WheelFront = PhysicHelper.createCircleBody(Global.world, BodyDef.BodyType.DynamicBody, params.WheelFrontOffset.cpy().add(startPoint),
                 params.WheelFrontSize / 2f, params.WheelFrontD, params.WheelFrontF, params.WheelFrontR,
                 Const.CAT_WHEELS, Const.MASK_PLAYER_WHEELS, Const.GROUP_PLAYER);
@@ -128,14 +130,14 @@ public class Dozer implements Disposable
         }
     }
 
+    private void addDownForce(float dt)
+    {
+        b2CarBody.applyLinearImpulse(new Vector2(0, 2.0f * Math.abs(BodySpeed) * dt), b2CarBody.getWorldCenter(), true);
+    }
+
     private void addAccel(float dt)
     {
         CurrentMotorSpeed = MathUtils.clamp(CurrentMotorSpeed + dt * Acceleration, 0, MaxMotorSpeed);
-    }
-
-    private float lerp(float start, float finish, float t)
-    {
-        return start + (finish - start) * t;
     }
 
     private void reduceAccel(float dt)
@@ -145,7 +147,7 @@ public class Dozer implements Disposable
 
     private void calcMotorSpeed(float dt)
     {
-        CurrentMotorSpeed = lerp(CurrentMotorSpeed, Math.abs(WheelSpeed / Gears[Gear]), 1 / Math.abs(Gears[Gear]));
+        CurrentMotorSpeed = Global.lerp(CurrentMotorSpeed, Math.abs(WheelSpeed / Gears[Gear]), 1 / Math.abs(Gears[Gear]));
     }
 
     private void brake(boolean shouldBrake)
@@ -186,7 +188,7 @@ public class Dozer implements Disposable
             //Если включена задняя передача
             if (Gear == 0)
             {
-                if (Math.abs(BodySpeed) < Const.CHANGE_GEAR_MOTORFORCE_THRESHOLD)
+                if (Math.abs(BodySpeed) < Const.PLAYER_CHANGE_GEAR_THRESHOLD)
                 {
                     //Можно переключаться на первую
                     //RearLight.Visible := False;
@@ -214,7 +216,7 @@ public class Dozer implements Disposable
             b2WheelJointRear.enableMotor(true);
             if (Gear > 0)
             {
-                if (BodySpeed < Const.CHANGE_GEAR_MOTORFORCE_THRESHOLD)
+                if (BodySpeed < Const.PLAYER_CHANGE_GEAR_THRESHOLD)
                 {
                     //Можно переключаться на заднюю
                     Gear = 0;
@@ -263,6 +265,7 @@ public class Dozer implements Disposable
 
         automaticTransmissionUpdate(dt);
         defineCarDynamicParams(dt);
+        addDownForce(dt);
     }
 
     private void defineCarDynamicParams(float dt)
@@ -270,9 +273,9 @@ public class Dozer implements Disposable
         WheelSpeed = b2WheelRear.getAngularVelocity();
         BodySpeed = b2CarBody.getLinearVelocity().x;
 
-        if (BodySpeed > Const.CHANGE_CAMERA_SPEED_THRESHOLD)
+        if (BodySpeed > Const.CAM_CHANGEDIR_THRESHOLD)
             Direction = MoveDirection.Right;
-        else if (BodySpeed < -Const.CHANGE_CAMERA_SPEED_THRESHOLD)
+        else if (BodySpeed < -Const.CAM_CHANGEDIR_THRESHOLD)
             Direction = MoveDirection.Left;
         else
             Direction = MoveDirection.NoMove;
@@ -282,7 +285,7 @@ public class Dozer implements Disposable
     {
         if (Math.abs(CurrentMotorSpeed - MaxMotorSpeed) <= Const.EPSILON)
             tryGearUp();
-        else if (CurrentMotorSpeed < Const.MIN_MOTOR_SPEED)
+        else if (CurrentMotorSpeed < Const.PLAYER_MIN_MOTOR_SPEED)
             tryGearDown();
     }
 }

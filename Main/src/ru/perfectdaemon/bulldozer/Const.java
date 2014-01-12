@@ -46,7 +46,17 @@ public class Const
     public static final short GROUP_PLAYER = -1;
 
     //player
-    public static final float CHANGE_GEAR_MOTORFORCE_THRESHOLD = 2.0f;
-    public static final float MIN_MOTOR_SPEED = 10.0f;
-    public static final float CHANGE_CAMERA_SPEED_THRESHOLD = 2.0f;
+    public static final float PLAYER_CHANGE_GEAR_THRESHOLD = 2.0f;
+    public static final float PLAYER_MIN_MOTOR_SPEED = 10.0f;
+
+    public static final float CAM_CHANGEDIR_THRESHOLD = 1.5f;
+    public static final float CAM_CHANGEDIR_TIMEOUT = 1.0f;
+    public static final float CAM_SMOOTH = 3.0f;
+
+    //Level
+    public static final float LEVEL_LIMIT_MIN_X = 0.0f;
+    public static final float LEVEL_LIMIT_MIN_Y = -2.5f;
+
+    public static final float LEVEL_LIMIT_MAX_X = -7.5f;
+    public static final float LEVEL_LIMIT_MAX_Y = 1.5f;
 }

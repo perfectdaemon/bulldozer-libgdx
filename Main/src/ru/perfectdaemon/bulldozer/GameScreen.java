@@ -2,6 +2,7 @@ package ru.perfectdaemon.bulldozer;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
@@ -15,6 +16,9 @@ public class GameScreen implements Screen, InputProcessor
     private final BulldozerGame game;
     private String debug;
     private Stage stage;
+    private float camChangeDirTimeout, camDelta;
+    private Vector2 camMin, camMax;
+
     public Level level;
     public Dozer dozer;
 
@@ -24,15 +28,13 @@ public class GameScreen implements Screen, InputProcessor
 
         OrthographicCamera camera = new OrthographicCamera();
         camera.setToOrtho(true, Const.GAME_WIDTH, Const.GAME_HEIGHT);
-
+        Gdx.gl.glClearColor(0 / 255.0f, 30 / 255.0f, 60 / 250.0f, 1.0f);
         stage = new Stage();
         stage.setCamera(camera);
+
         Global.load();
-
-        level = new Level(Gdx.files.internal("main/level1.conf"));
+        loadLevel(Gdx.files.local("main/level1.conf"));
         loadDozer();
-
-        Gdx.gl.glClearColor(0 / 255.0f, 30 / 255.0f, 60 / 250.0f, 1.0f);
     }
 
     private void loadDozer()
@@ -40,6 +42,67 @@ public class GameScreen implements Screen, InputProcessor
         if (dozer != null)
             dozer.dispose();
         dozer = new Dozer(new DozerParams(Gdx.files.internal("main/car.conf")), new Vector2(2.5f, 7.5f));
+    }
+
+    private void loadLevel(FileHandle handle)
+    {
+        if (level != null)
+            level.dispose();
+        level = new Level(handle);
+        camMin = level.getLevelLimitMin();
+        camMax = level.getLevelLimitMax();
+        byte[] b = level.saveLevelToBinary();
+        //Gdx.files.local("main/level1copy.conf").writeBytes(b, false);
+    }
+
+    private void cameraUpdate(float dt)
+    {
+        Vector2 camTarget = new Vector2(stage.getCamera().position.x, stage.getCamera().position.y);
+        //camTarget.add(Const.GAME_WIDTH / 2.0f, Const.GAME_HEIGHT / 2);
+        camChangeDirTimeout -= dt;
+
+        if (camChangeDirTimeout <= 0)
+        {
+            switch (dozer.Direction)
+            {
+                case NoMove:
+                    if (Math.abs(camDelta) > Const.EPSILON)
+                    {
+                        camDelta = 0;
+                        camChangeDirTimeout = Const.CAM_CHANGEDIR_TIMEOUT;
+                    }
+                    break;
+                case Left:
+                    if (Math.abs(camDelta + 10) > Const.EPSILON) // != -10
+                    {
+                        camDelta = -10;
+                        camChangeDirTimeout = Const.CAM_CHANGEDIR_TIMEOUT;
+                    }
+                    break;
+                case Right:
+                    if (Math.abs(camDelta - 10) > Const.EPSILON)    // != 10
+                    {
+                        camDelta = 10;
+                        camChangeDirTimeout = Const.CAM_CHANGEDIR_TIMEOUT;
+                    }
+                    break;
+            }
+        }
+
+        if (Math.abs(camTarget.x - (dozer.b2CarBody.getPosition().x + camDelta)) < Const.EPSILON)
+            camTarget.x = dozer.b2CarBody.getPosition().x + camDelta;
+        else
+            camTarget.x = Global.lerp(camTarget.x, dozer.b2CarBody.getPosition().x + camDelta, Const.CAM_SMOOTH * dt);
+
+        if (Math.abs(camTarget.y - dozer.b2CarBody.getPosition().x) < Const.EPSILON)
+            camTarget.y = dozer.b2CarBody.getPosition().y;
+        else
+            camTarget.y = Global.lerp(camTarget.y, dozer.b2CarBody.getPosition().y, Const.CAM_SMOOTH * dt);
+
+        camTarget = Global.clamp(camTarget, camMin, camMax);
+
+        stage.getCamera().position.x = camTarget.x;
+        stage.getCamera().position.y = camTarget.y;
     }
 
     @Override
@@ -58,6 +121,7 @@ public class GameScreen implements Screen, InputProcessor
 
         stage.act(delta);
         dozer.update(delta);
+        cameraUpdate(delta);
         Global.world.step(Const.PHYSIC_STEP, Const.PHYSIC_VEL_IT, Const.PHYSIC_POS_IT);
     }
 
@@ -97,6 +161,8 @@ public class GameScreen implements Screen, InputProcessor
 
     public void dispose()
     {
+        dozer.dispose();
+        level.dispose();
         Global.dispose();
     }
 

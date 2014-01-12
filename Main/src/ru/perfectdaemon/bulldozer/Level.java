@@ -6,8 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.*;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -20,7 +19,7 @@ public class Level
     private Body[] b2dynamicBlocks;
     private Actor[] dynamicBlocks;
 
-    private Vector2[] earthPoints;
+    private Vector2[] earthPoints, dynamicBlocksPositions;
 
     private short readShort(InputStream stream) throws IOException
     {
@@ -29,6 +28,26 @@ public class Level
         ByteBuffer buffer = ByteBuffer.wrap(b);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         return buffer.getShort();
+    }
+
+    private byte[] shortToByteArray(short value)
+    {
+        ByteBuffer buffer = ByteBuffer.allocate(2);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.putShort(value);
+        return buffer.array();
+    }
+
+    private byte[] vector2ArrayToByteArray(Vector2[] v)
+    {
+        ByteBuffer buffer = ByteBuffer.allocate(v.length * 4 * 2);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        for (int i = 0; i < v.length; i++)
+        {
+            buffer.putFloat(8 * i,     v[i].x);
+            buffer.putFloat(8 * i + 4, v[i].y);
+        }
+        return buffer.array();
     }
 
     public Level(FileHandle levelFileHandle)
@@ -50,13 +69,13 @@ public class Level
             {
                 float x = byteBuffer.getFloat(8 * i);
                 float y = byteBuffer.getFloat(8 * i + 4);
-                this.earthPoints[i] = new Vector2(x, y).div(40f);
+                this.earthPoints[i] = new Vector2(x, y);//.div(40f);
             }
             createEarth();
 
             //read dynamic blocks
             count = readShort(stream);
-            Vector2[] dynamicBlocksPositions = new Vector2[count];
+            this.dynamicBlocksPositions = new Vector2[count];
             b = new byte[count * 4 * 2]; //Two 4-byte float values per 1 point
             stream.read(b, 0, b.length);
             byteBuffer = ByteBuffer.wrap(b);
@@ -67,13 +86,32 @@ public class Level
                 float y = byteBuffer.getFloat(8 * i + 4);
                 dynamicBlocksPositions[i] = new Vector2(x, y);
             }
-            createDynamicBlocks(dynamicBlocksPositions);
+            createDynamicBlocks();
             stream.close();
         }
         catch (Exception e)
         {
             Gdx.app.log("Game", "Unable to load level from " + levelFileHandle.name() + ". Exception message: " + e.getMessage());
         }
+    }
+
+    public byte[] saveLevelToBinary()
+    {
+        Short countEarth = (short) earthPoints.length;
+        Short countDynamic = (short) b2dynamicBlocks.length;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        try
+        {
+            stream.write(shortToByteArray(countEarth));
+            stream.write(vector2ArrayToByteArray(earthPoints));
+            stream.write(shortToByteArray(countDynamic));
+            stream.write(vector2ArrayToByteArray(dynamicBlocksPositions));
+        }
+        catch (Exception e)
+        {
+            Gdx.app.log("Game", "Unable to serialize level to binary. Exception message: " + e.getMessage());
+        }
+        return stream.toByteArray();
     }
 
     private void createEarth()
@@ -98,20 +136,20 @@ public class Level
         shape.dispose();
     }
 
-    private void createDynamicBlocks(Vector2[] positions)
+    private void createDynamicBlocks()
     {
-        b2dynamicBlocks = new Body[positions.length];
-        for (int i = 0; i < positions.length; i++)
+        b2dynamicBlocks = new Body[dynamicBlocksPositions.length];
+        for (int i = 0; i < dynamicBlocksPositions.length; i++)
         {
             BodyDef bodyDef = new BodyDef();
             bodyDef.type = BodyDef.BodyType.DynamicBody;
-            bodyDef.position.set(positions[i].div(40f));
+            bodyDef.position.set(dynamicBlocksPositions[i]);//.div(40f));
 
             PolygonShape shape = new PolygonShape();
             shape.setAsBox(0.3f, 0.3f);
 
             FixtureDef fixtureDef = new FixtureDef();
-            fixtureDef.density = 0.02f;
+            fixtureDef.density = 0.03f;
             fixtureDef.friction = 0.4f;
             fixtureDef.restitution = 0.4f;
             fixtureDef.shape = shape;
@@ -123,5 +161,22 @@ public class Level
 
             shape.dispose();
         }
+    }
+
+    public Vector2 getLevelLimitMin()
+    {
+        return new Vector2(this.earthPoints[0]).add(Const.LEVEL_LIMIT_MIN_X, Const.LEVEL_LIMIT_MIN_Y);
+    }
+
+    public Vector2 getLevelLimitMax()
+    {
+        return new Vector2(this.earthPoints[earthPoints.length - 1]).add(Const.LEVEL_LIMIT_MAX_X, Const.LEVEL_LIMIT_MAX_Y);
+    }
+
+    public void dispose()
+    {
+        for (int i = 0; i < b2dynamicBlocks.length; i++)
+            Global.world.destroyBody(b2dynamicBlocks[i]);
+        Global.world.destroyBody(earth);
     }
 }
