@@ -1,0 +1,38 @@
+MAIN
+    Main Menu
+    Pause Menu
+    Level menu
+
+    Level editor
+
+GRAPHICS
+
+GUI
+    Gas, Brake, HandBrake buttons for mobile version
+    Time left text
+    Boxes in place text
+
+LEVEL
++   Save level
++   Remove scale 1/40
++   Level size for cam clamp
+    Sensor for start and box counting
+    Level divison by box2d chain blocks
+
+CAMERA
++   clamp with level limits
+
+DOZER
++   Add down force
+    Down force only when on ground
+
+
+NEW IDEAS FOR GAMEPLAY
+    Break block to release more boxes (use springboards (tramplin), for example
+    Trailer
+    Shovel upgrade
+    Sticky dozer body
+    Low gravitation
+    Bonuses on level
+
+
