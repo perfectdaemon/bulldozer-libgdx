@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -13,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  */
 public class GameScreen implements Screen, InputProcessor
 {
+    private Rectangle rectGas, rectBrake, rectHandbrake, rectPause, rectReset;
+
     private final BulldozerGame game;
     private String debug;
     private Stage stage;
@@ -33,7 +36,7 @@ public class GameScreen implements Screen, InputProcessor
         stage.setCamera(camera);
 
         Global.load();
-        loadLevel(Gdx.files.local("main/level1.conf"));
+        loadLevel(Gdx.files.internal("main/level1.conf"));
         loadDozer();
     }
 
@@ -51,14 +54,23 @@ public class GameScreen implements Screen, InputProcessor
         level = new Level(handle);
         camMin = level.getLevelLimitMin();
         camMax = level.getLevelLimitMax();
-        byte[] b = level.saveLevelToBinary();
-        //Gdx.files.local("main/level1copy.conf").writeBytes(b, false);
+    }
+
+    private void loadGui()
+    {
+        rectGas = new Rectangle(0.75f * Gdx.graphics.getWidth(), 0.2f * Gdx.graphics.getHeight(),
+                0.25f * Gdx.graphics.getWidth(), 0.8f * Gdx.graphics.getHeight());
+        rectBrake = new Rectangle(0.0f * Gdx.graphics.getWidth(), 0.2f * Gdx.graphics.getHeight(),
+                0.25f * Gdx.graphics.getWidth(), 0.8f * Gdx.graphics.getHeight());
+        rectHandbrake = new Rectangle(0.25f * Gdx.graphics.getWidth(), 0.75f * Gdx.graphics.getHeight(),
+                0.5f * Gdx.graphics.getWidth(), 0.25f * Gdx.graphics.getHeight());
+        rectReset = new Rectangle(0.25f * Gdx.graphics.getWidth(), 0.0f * Gdx.graphics.getHeight(),
+                0.5f * Gdx.graphics.getWidth(), 0.50f * Gdx.graphics.getHeight());
     }
 
     private void cameraUpdate(float dt)
     {
         Vector2 camTarget = new Vector2(stage.getCamera().position.x, stage.getCamera().position.y);
-        //camTarget.add(Const.GAME_WIDTH / 2.0f, Const.GAME_HEIGHT / 2);
         camChangeDirTimeout -= dt;
 
         if (camChangeDirTimeout <= 0)
@@ -112,7 +124,7 @@ public class GameScreen implements Screen, InputProcessor
         stage.draw();
         Global.debugRenderer.render(Global.world, stage.getCamera().combined);
 
-        debug = String.format("gas: %b \nbrake: %b \nhandbrake: %b", dozer.isGasDown(), dozer.isBrakeDown(), dozer.isHandbrakeDown());
+        debug = String.format("gas: %b \nbrake: %b \nhandbrake: %b", dozer.isGas, dozer.isBrake, dozer.isHandbrake);
         Global.batch.setProjectionMatrix(Global.camera.combined);
         Global.batch.begin();
         //Assets.font.setScale(0.5f);
@@ -131,7 +143,7 @@ public class GameScreen implements Screen, InputProcessor
         stage.setViewport(Const.GAME_WIDTH, Const.GAME_HEIGHT, true);
         stage.getCamera().translate(-stage.getGutterWidth(),
                 -stage.getGutterHeight(), 0);
-
+        loadGui();
         //Global.camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
@@ -169,15 +181,26 @@ public class GameScreen implements Screen, InputProcessor
     @Override
     public boolean keyDown(int keycode)
     {
-        if (keycode == Input.Keys.TAB)
-            loadDozer();
-        return false;
+        switch (keycode)
+        {
+            case Input.Keys.TAB: loadDozer(); return true;
+            case Input.Keys.LEFT: dozer.setBrake(true); return true;
+            case Input.Keys.RIGHT: dozer.setGas(true); return true;
+            case Input.Keys.SPACE: dozer.setHandBrake(true); return true;
+            default: return false;
+        }
     }
 
     @Override
     public boolean keyUp(int keycode)
     {
-        return false;
+        switch (keycode)
+        {
+            case Input.Keys.LEFT: dozer.setBrake(false); return true;
+            case Input.Keys.RIGHT: dozer.setGas(false); return true;
+            case Input.Keys.SPACE: dozer.setHandBrake(false); return true;
+            default: return false;
+        }
     }
 
     @Override
@@ -189,12 +212,26 @@ public class GameScreen implements Screen, InputProcessor
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
+        if (rectGas.contains(screenX, screenY))
+            dozer.setGas(true);
+        if (rectBrake.contains(screenX, screenY))
+            dozer.setBrake(true);
+        if (rectHandbrake.contains(screenX, screenY))
+            dozer.setHandBrake(true);
+        if (rectReset.contains(screenX, screenY))
+            loadDozer();
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button)
     {
+        if (rectGas.contains(screenX, screenY))
+            dozer.setGas(false);
+        if (rectBrake.contains(screenX, screenY))
+            dozer.setBrake(false);
+        if (rectHandbrake.contains(screenX, screenY))
+            dozer.setHandBrake(false);
         return false;
     }
 
