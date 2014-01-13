@@ -21,6 +21,8 @@ public class Dozer implements Disposable
 {
     public enum MoveDirection {NoMove, Left, Right};
 
+    boolean isGas, isBrake, isHandbrake;
+
     Actor WheelRear, WheelFront, SuspRear, SuspFront, CarBody, LightStop, LightRear;
     Body b2WheelRear, b2WheelFront, b2CarBody, b2SuspRear, b2SuspFront;
     RevoluteJoint b2WheelJointRear, b2WheelJointFront;
@@ -177,12 +179,27 @@ public class Dozer implements Disposable
                         && ((float)Gdx.input.getX() / Gdx.graphics.getWidth()) < 2 / 3f);
     }
 
+    public void setGas(boolean isActive)
+    {
+        this.isGas = isActive;
+    }
+
+    public void setBrake(boolean isActive)
+    {
+        this.isBrake = isActive;
+    }
+
+    public void setHandBrake(boolean isActive)
+    {
+        this.isHandbrake = isActive;
+    }
+
     public void update(float dt)
     {
         brake(false);
         boolean isAccelerating = false;
 
-        if (isGasDown())
+        if (isGas)
         {
             b2WheelJointRear.enableMotor(true);
             //Если включена задняя передача
@@ -211,7 +228,7 @@ public class Dozer implements Disposable
             }
 
         }
-        else if (isBrakeDown())
+        if (isBrake)
         {
             b2WheelJointRear.enableMotor(true);
             if (Gear > 0)
@@ -239,7 +256,7 @@ public class Dozer implements Disposable
             }
         }
         //не нажато ни вперед, ни назад
-        else
+        if (!isBrake && !isGas)
         {
             b2WheelJointRear.enableMotor(false);
             isAccelerating = false;
@@ -253,10 +270,10 @@ public class Dozer implements Disposable
             b2WheelJointRear.setMotorSpeed(-CurrentMotorSpeed * Gears[Gear]);
             b2WheelJointRear.setMaxMotorTorque(5 / Math.abs(Gears[Gear]));
             //if (WheelPoints > 0){ and (Gear > 0)} then
-            //    AddDownForce(dt);
+            addDownForce(dt);
         }
 
-        if (isHandbrakeDown())
+        if (isHandbrake)
         {
             b2WheelJointRear.enableMotor(true);
             b2WheelJointRear.setMotorSpeed(0);
@@ -265,7 +282,8 @@ public class Dozer implements Disposable
 
         automaticTransmissionUpdate(dt);
         defineCarDynamicParams(dt);
-        addDownForce(dt);
+
+        Actor actor = new Actor();
     }
 
     private void defineCarDynamicParams(float dt)
