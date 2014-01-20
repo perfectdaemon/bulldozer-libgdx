@@ -8,8 +8,8 @@ import com.badlogic.gdx.physics.box2d.*;
  */
 public class PhysicHelper
 {
-    private static Body _createBodyWithShape(World world, BodyDef.BodyType type, Vector2 pos, Shape shape,
-                                             float d, float f, float r, short cat, short mask, short groupIndex)
+    public static Body createBodyWithShape(World world, BodyDef.BodyType type, Vector2 pos, Shape shape,
+                                           float d, float f, float r, short cat, short mask, short groupIndex)
     {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = type;
@@ -38,7 +38,7 @@ public class PhysicHelper
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(halfSize.x, halfSize.y);
 
-        return _createBodyWithShape(world, type, pos, shape, d, f, r, cat, mask, groupIndex);
+        return createBodyWithShape(world, type, pos, shape, d, f, r, cat, mask, groupIndex);
     }
 
     public static Body createCircleBody(World world, BodyDef.BodyType type, Vector2 pos, float radius,
@@ -47,6 +47,6 @@ public class PhysicHelper
         CircleShape shape = new CircleShape();
         shape.setRadius(radius);
 
-        return _createBodyWithShape(world, type, pos, shape, d, f, r, cat, mask, groupIndex);
+        return createBodyWithShape(world, type, pos, shape, d, f, r, cat, mask, groupIndex);
     }
 }

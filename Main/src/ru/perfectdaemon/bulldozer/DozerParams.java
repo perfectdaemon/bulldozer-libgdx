@@ -29,6 +29,11 @@ public class DozerParams
     public int GearCount;
     public float[] Gears;
 
+    public Vector2 ShovelOffset;
+    public float ShovelScale;
+    public int ShovelCount;
+    public Vector2[] ShovelPoints;
+
     public DozerParams()
     {
     }
@@ -89,6 +94,13 @@ public class DozerParams
         Gears = new float[GearCount];
         for (int j = 0; j < Gears.length; j++)
             Gears[j] = readFloat(lines[i++]);
+
+        ShovelOffset = readVector(lines[i++]);
+        ShovelScale = readFloat(lines[i++]);
+        ShovelCount = readInt(lines[i++]);
+        ShovelPoints = new Vector2[ShovelCount];
+        for (int j = 0; j < ShovelCount; j++)
+            ShovelPoints[j] = readVector(lines[i++]).scl(ShovelScale);
     }
 
 }
