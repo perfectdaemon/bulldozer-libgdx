@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.MassData;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJoint;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
@@ -24,9 +24,9 @@ public class Dozer implements Disposable
     boolean isGas, isBrake, isHandbrake;
 
     Actor WheelRear, WheelFront, SuspRear, SuspFront, CarBody, LightStop, LightRear;
-    Body b2WheelRear, b2WheelFront, b2CarBody, b2SuspRear, b2SuspFront;
+    Body b2WheelRear, b2WheelFront, b2CarBody, b2SuspRear, b2SuspFront, b2Shovel;
     RevoluteJoint b2WheelJointRear, b2WheelJointFront;
-    PrismaticJoint b2SuspJointRear, b2SuspJointFront;
+    PrismaticJoint b2SuspJointRear, b2SuspJointFront, b2ShovelJoint;
 
     float CurrentMotorSpeed, MaxMotorSpeed, Acceleration, BodySpeed, WheelSpeed;
     int Gear;
@@ -112,6 +112,22 @@ public class Dozer implements Disposable
         rdef = new RevoluteJointDef();
         rdef.initialize(b2WheelFront, b2SuspFront, b2WheelFront.getPosition());
         b2WheelJointFront = (RevoluteJoint) Global.world.createJoint(rdef);
+    }
+
+    private void initShovel(DozerParams params)
+    {
+        Vector2 position = b2CarBody.getPosition().cpy().add(params.ShovelOffset);
+        PolygonShape shape = new PolygonShape();
+        shape.set(params.ShovelPoints);
+        b2Shovel = PhysicHelper.createBodyWithShape(Global.world, BodyDef.BodyType.DynamicBody,
+                position, shape, 0.2f, 0.1f, 0.2f, Const.CAT_PLAYER, Const.MASK_PLAYER, Const.GROUP_PLAYER);
+
+        PrismaticJointDef def = new PrismaticJointDef();
+        def.initialize(b2CarBody, b2Shovel, b2Shovel.getPosition(), new Vector2(0, -1));
+        def.enableLimit = true;
+        b2ShovelJoint = (PrismaticJoint) Global.world.createJoint(def);
+        !!!
+
     }
 
     private void tryGearUp()
